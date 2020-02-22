@@ -9,16 +9,18 @@ const MediumClap = () => {
   const [clapState, setClapState] = useState(initialState);
   const { count, countTotal } = clapState;
   const handleClapClick = () => {
-    setClapState({
-      count: count + 1,
-      countTotal: countTotal + 1
+    setClapState(prevState => {
+      return {
+        count: prevState.count + 1,
+        countTotal: prevState.countTotal + 1
+      };
     });
   };
   return (
     <button className={styles.clap} onClick={handleClapClick}>
       <ClapIcon />
-      <ClapCount count={count}/>
-      <CountTotal countTotal={countTotal}/>
+      <ClapCount count={count} />
+      <CountTotal countTotal={countTotal} />
     </button>
   );
 };
