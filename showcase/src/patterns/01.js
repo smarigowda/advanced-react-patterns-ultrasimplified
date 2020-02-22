@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./index.css";
 
 const MediumClap = () => {
+  const initialState = {
+    count: 0,
+    countTotal: 267
+  };
+  const [clapState, setClapState] = useState(initialState);
+  const { count, countTotal } = clapState;
+
   return (
     <button className={styles.clap}>
       <ClapIcon />
-      <ClapCount />
-      <CountTotal />
+      <ClapCount count={count}/>
+      <CountTotal countTotal={countTotal}/>
     </button>
   );
 };
