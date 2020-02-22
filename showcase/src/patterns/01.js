@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./index.css";
 
+const MAX_CLAP = 10;
+
 const MediumClap = () => {
   const initialState = {
     count: 0,
@@ -11,8 +13,8 @@ const MediumClap = () => {
   const handleClapClick = () => {
     setClapState(prevState => {
       return {
-        count: prevState.count + 1,
-        countTotal: prevState.countTotal + 1
+        count: Math.min(prevState.count + 1, MAX_CLAP),
+        countTotal: count < MAX_CLAP ? prevState.countTotal + 1 : prevState.countTotal
       };
     });
   };
