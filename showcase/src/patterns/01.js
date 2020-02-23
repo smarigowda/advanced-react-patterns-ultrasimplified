@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import mojs from 'mo-js';
+import mojs from "mo-js";
 import styles from "./index.css";
 
 const MAX_CLAP = 10;
@@ -24,7 +24,7 @@ const MediumClap = ({ animationTimeline }) => {
     });
   };
   return (
-    <button className={styles.clap} onClick={handleClapClick}>
+    <button id="clap" className={styles.clap} onClick={handleClapClick}>
       <ClapIcon isClicked={isClicked} />
       <ClapCount count={count} />
       <CountTotal countTotal={countTotal} />
@@ -35,11 +35,27 @@ const MediumClap = ({ animationTimeline }) => {
 const withClapAnimation = WrappedComponent => {
   class WithClapAnimation extends Component {
     // A function to handle animation
+    animationTimeline = new mojs.Timeline();
     state = {
-      animationTimeline: new mojs.Timeline()
+      animationTimeline: this.animationTimeline
+    };
+    componentDidMount() {
+      const scaleButton = new mojs.Html({
+        el: "#clap",
+        duration: 300,
+        scale: { 1.3: 1 },
+        easing: mojs.easing.ease.out
+      });
+      const newAnimationTimeline = this.animationTimeline.add([scaleButton]);
+      this.setState({ animationTimeline: newAnimationTimeline });
     }
     render() {
-      return <WrappedComponent {...this.props} animationTimeline={this.state.animationTimeline} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          animationTimeline={this.state.animationTimeline}
+        />
+      );
     }
   }
   return WithClapAnimation;
