@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import styles from "./index.css";
 
 const MAX_CLAP = 10;
@@ -30,6 +30,15 @@ const MediumClap = () => {
   );
 };
 
+const withClapAnimation = WrappedComponent => {
+  class WithClapAnimation extends Component {
+    render() {
+      return <WrappedComponent {...this.props}/>
+    }
+  }
+  return WithClapAnimation;
+}
+
 // Sub Components
 const ClapCount = ({ count }) => {
   return <span className={styles.count}> + {count} </span>;
@@ -54,4 +63,9 @@ const CountTotal = ({ countTotal }) => {
   return <span className={styles.total}>{countTotal}</span>;
 };
 
-export default MediumClap;
+const Usage = () => {
+  const AnimatedMediumClap = withClapAnimation(MediumClap);
+  return <AnimatedMediumClap />
+}
+
+export default Usage;
