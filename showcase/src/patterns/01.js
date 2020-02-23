@@ -3,7 +3,7 @@ import styles from "./index.css";
 
 const MAX_CLAP = 10;
 
-const MediumClap = () => {
+const MediumClap = ({ animate }) => {
   const initialState = {
     count: 0,
     countTotal: 267,
@@ -12,6 +12,7 @@ const MediumClap = () => {
   const [clapState, setClapState] = useState(initialState);
   const { count, countTotal, isClicked } = clapState;
   const handleClapClick = () => {
+    animate();
     setClapState(prevState => {
       return {
         count: Math.min(prevState.count + 1, MAX_CLAP),
@@ -32,12 +33,16 @@ const MediumClap = () => {
 
 const withClapAnimation = WrappedComponent => {
   class WithClapAnimation extends Component {
+    // A function to handle animation
+    animate = () => {
+      console.log("%c Animation", "background:yellow; color:black");
+    };
     render() {
-      return <WrappedComponent {...this.props}/>
+      return <WrappedComponent {...this.props} animate={this.animate} />;
     }
   }
   return WithClapAnimation;
-}
+};
 
 // Sub Components
 const ClapCount = ({ count }) => {
@@ -65,7 +70,7 @@ const CountTotal = ({ countTotal }) => {
 
 const Usage = () => {
   const AnimatedMediumClap = withClapAnimation(MediumClap);
-  return <AnimatedMediumClap />
-}
+  return <AnimatedMediumClap />;
+};
 
 export default Usage;
