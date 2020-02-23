@@ -1,9 +1,10 @@
 import React, { useState, Component } from "react";
+import mojs from 'mo-js';
 import styles from "./index.css";
 
 const MAX_CLAP = 10;
 
-const MediumClap = ({ animate }) => {
+const MediumClap = ({ animationTimeline }) => {
   const initialState = {
     count: 0,
     countTotal: 267,
@@ -12,7 +13,7 @@ const MediumClap = ({ animate }) => {
   const [clapState, setClapState] = useState(initialState);
   const { count, countTotal, isClicked } = clapState;
   const handleClapClick = () => {
-    animate();
+    animationTimeline.replay();
     setClapState(prevState => {
       return {
         count: Math.min(prevState.count + 1, MAX_CLAP),
@@ -34,11 +35,11 @@ const MediumClap = ({ animate }) => {
 const withClapAnimation = WrappedComponent => {
   class WithClapAnimation extends Component {
     // A function to handle animation
-    animate = () => {
-      console.log("%c Animation", "background:yellow; color:black");
-    };
+    state = {
+      animationTimeline: new mojs.Timeline()
+    }
     render() {
-      return <WrappedComponent {...this.props} animate={this.animate} />;
+      return <WrappedComponent {...this.props} animationTimeline={this.state.animationTimeline} />;
     }
   }
   return WithClapAnimation;
